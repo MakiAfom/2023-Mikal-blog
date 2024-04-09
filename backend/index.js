@@ -1,8 +1,23 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const allowedOrigins = [
+  'https://two023-mikal-blog.onrender.com'
+];
 
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true // Allow credentials
+};
+
+app.use(cors(corsOptions));
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
